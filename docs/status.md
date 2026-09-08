@@ -10,11 +10,14 @@
 > Komfort-Features und PWA kommen zuletzt, da sie den eigentlichen Zweck (Wertungsblatt ersetzen) nicht
 > blockieren.
 
-## Meilenstein 1 — Projekt-Grundgerüst & Deployment-Pipeline
+## Meilenstein 1 — Projekt-Grundgerüst & Deployment-Pipeline ✅
 
-- [ ] Vite + React + TypeScript Grundgerüst
-- [ ] Tailwind CSS eingerichtet
-- [ ] GitHub Pages Deployment (auch mit Platzhalter-Seite testen — Pipeline muss von Anfang an stehen)
+- [x] Vite + React + TypeScript Grundgerüst
+- [x] Tailwind CSS eingerichtet
+- [x] GitHub Pages Deployment (auch mit Platzhalter-Seite testen — Pipeline muss von Anfang an stehen)
+  — live unter https://xskip.github.io/rage-companion/, automatischer Deploy bei Push auf `master`
+  (Hinweis: Repo musste dafür auf öffentlich gestellt werden, da GitHub Pages für private Repos auf
+  dem aktuellen Plan nicht verfügbar ist)
 
 ## Meilenstein 2 — Punkteberechnungs-Logik (Kernstück, isoliert & getestet)
 
