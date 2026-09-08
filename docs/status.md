@@ -53,9 +53,10 @@
       funktioniert auch nach Spielende. Zusätzlich: "Neue Partie"-Reset mit Bestätigung (notwendige
       Ergänzung, da der Fortschritt sonst dauerhaft im Browser hängen bliebe)
 
-## Meilenstein 6 — Spielende
+## Meilenstein 6 — Spielende ✅
 
-- [ ] Sieger-Anzeige nach Runde 10 (inkl. gemeinsamem Sieg bei Gleichstand)
+- [x] Sieger-Anzeige nach Runde 10 (inkl. gemeinsamem Sieg bei Gleichstand) — `WinnerBanner.tsx`,
+      Hervorhebung in `StandingsTable.tsx`
 
 ## Meilenstein 7 — Internationalisierung
 
