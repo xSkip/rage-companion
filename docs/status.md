@@ -1,41 +1,66 @@
-# Implementierungsstatus
+# Implementierungsstatus & Vorgehen
 
-> Spiegelt die Feature-Liste aus [requirements.md](requirements.md). Ein Punkt wird im selben Commit
-> abgehakt, der ihn implementiert — Details siehe Commit-Historie (`git log`).
+> Bildet die Anforderungen aus [requirements.md](requirements.md) auf eine sinnvolle Bau-Reihenfolge ab.
+> Ein Punkt wird im selben Commit abgehakt, der ihn implementiert — Details siehe Commit-Historie (`git log`).
+>
+> **Prinzip der Reihenfolge:** Erst die Deployment-Pipeline lauffähig machen (jede spätere Änderung sofort
+> auf einem echten Gerät prüfbar), dann die Punkteberechnung als isolierte, getestete Logik bauen (das ist
+> das fehleranfälligste Stück — muss vor jeder UI stimmen), danach den Kern-Loop des Wertungsblatt-Ersatzes
+> fertigstellen. i18n, Regel-Varianten und Feinschliff folgen erst, wenn der Kern-Loop funktioniert.
+> Komfort-Features und PWA kommen zuletzt, da sie den eigentlichen Zweck (Wertungsblatt ersetzen) nicht
+> blockieren.
 
-## Projekt-Setup
+## Meilenstein 1 — Projekt-Grundgerüst & Deployment-Pipeline
 
 - [ ] Vite + React + TypeScript Grundgerüst
 - [ ] Tailwind CSS eingerichtet
-- [ ] GitHub Pages Deployment
+- [ ] GitHub Pages Deployment (auch mit Platzhalter-Seite testen — Pipeline muss von Anfang an stehen)
 
-## Kernfunktionen (Abschnitt 5)
+## Meilenstein 2 — Punkteberechnungs-Logik (Kernstück, isoliert & getestet)
 
-- [ ] Partie starten (3–8 Spielernamen)
-- [ ] Rundenweise Erfassung (Vorhersage, Stiche, Sonderpunkte)
-- [ ] Automatische Punkteberechnung
-- [ ] Laufende Rangliste
-- [ ] Spielende & Sieger-Ermittlung
-- [ ] Runden nachträglich korrigierbar
-- [ ] Lokale Speicherung (localStorage)
+- [ ] Reine TypeScript-Funktionen für die Punkteberechnung (Abschnitt 3 der Anforderungen)
+- [ ] Vitest-Unit-Tests für alle Fälle: korrekte/falsche Vorhersage, +5/−5-Bonus, Durchmarsch-Variante
+- [ ] Sieger-/Gleichstand-Logik (Abschnitt 5.5) als eigene getestete Funktion
 
-## Regel-Varianten (Abschnitt 6)
+## Meilenstein 3 — Partie-Setup-Screen
 
-- [ ] Plus/Minus Eins
-- [ ] Verdeckter Tipp / Geheime Vorhersage
-- [ ] Durchmarsch
+- [ ] Spielernamen eingeben (3–8 Spieler)
+- [ ] Regel-Varianten beim Start auswählbar (UI-Toggles, Logik kommt aus Meilenstein 2)
+- [ ] Neue Partie anlegen
 
-## Komfort-Features (Abschnitt 7)
+## Meilenstein 4 — Rundenraster mit Live-Berechnung & Rangliste
 
-- [ ] Trumpffarbe pro Runde
-- [ ] Verlauf & Statistiken über mehrere Partien
+- [ ] Rundenweise Erfassung (Vorhersage, gewonnene Stiche, Sonderpunkte), Kartenanzahl 10→1 automatisch angezeigt
+- [ ] Punkte pro Runde live berechnet (nutzt Meilenstein 2)
+- [ ] Laufende Rangliste nach jeder Runde
+
+## Meilenstein 5 — Lokale Speicherung & Korrektur
+
+- [ ] `localStorage`-Hook für Partie-Fortschritt (kein Datenverlust bei Reload)
+- [ ] Bereits erfasste Runden nachträglich bearbeitbar
+
+## Meilenstein 6 — Spielende
+
+- [ ] Sieger-Anzeige nach Runde 10 (inkl. gemeinsamem Sieg bei Gleichstand)
+
+## Meilenstein 7 — Internationalisierung
+
+- [ ] Eigene i18n-Lösung (JSON-Wörterbücher `de`/`en` + Context-Hook)
+- [ ] Sprachumschaltung in der App
+
+## Meilenstein 8 — Responsive-Feinschliff
+
+- [ ] Layout für Mobile/Tablet geprüft und optimiert (Gerät wird am Tisch herumgereicht)
+
+**→ Ab hier ist der MVP (Wertungsblatt-Ersatz) vollständig.**
+
+## Meilenstein 9 — Komfort-Features (Nice-to-Have)
+
+- [ ] Trumpffarbe pro Runde vermerken
 - [ ] Regel-Kurzreferenz in der App
+- [ ] Verlauf & Statistiken über mehrere Partien
 - [ ] Partie teilen/exportieren
 
-## Internationalisierung (Abschnitt 8)
+## Meilenstein 10 — PWA
 
-- [ ] Sprachumschaltung DE/EN (eigene i18n-Lösung)
-
-## Sonstiges
-
-- [ ] PWA (installierbar/offline)
+- [ ] Installierbar/offline-fähig (Manifest + Service Worker)
