@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/rage-companion/',
+  base: '/',
   plugins: [react(), tailwindcss()],
   test: {
     environment: 'jsdom',
