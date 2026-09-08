@@ -58,10 +58,11 @@
 - [x] Sieger-Anzeige nach Runde 10 (inkl. gemeinsamem Sieg bei Gleichstand) — `WinnerBanner.tsx`,
       Hervorhebung in `StandingsTable.tsx`
 
-## Meilenstein 7 — Internationalisierung
+## Meilenstein 7 — Internationalisierung ✅
 
-- [ ] Eigene i18n-Lösung (JSON-Wörterbücher `de`/`en` + Context-Hook)
-- [ ] Sprachumschaltung in der App
+- [x] Eigene i18n-Lösung (TS-Wörterbücher `de`/`en` + Context-Hook, kein react-i18next) —
+      `src/i18n/I18nContext.tsx`, `src/i18n/dictionaries/`
+- [x] Sprachumschaltung in der App — `LanguageSwitcher.tsx`, Wahl wird in `localStorage` gemerkt
 
 ## Meilenstein 8 — Responsive-Feinschliff
 
