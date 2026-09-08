@@ -82,13 +82,19 @@ echten Karten.
 
 ## 10. Tech Stack
 
+Geprüfte Alternativen: Svelte/SolidJS (kleinere Bundles, aber deutlich kleinere Community/Doku-Basis),
+Vanilla JS ohne Framework (bei den geplanten Zusatzfeatures wie Mehrsprachigkeit und
+Mehr-Partien-Statistik schnell unübersichtlich), Preact (spart nur Bundle-Größe, bei diesem
+Projektumfang kein spürbarer Vorteil). React bleibt aufgrund der breiten Tooling-/Community-Unterstützung
+und Wartbarkeit die sinnvollste Wahl.
+
 | Bereich | Wahl | Begründung |
 |---|---|---|
 | Framework | React + TypeScript | breite Tooling-/Community-Unterstützung, gut erweiterbar |
 | Build-Tool | Vite | schneller Dev-Server, einfacher Static Build |
 | Styling | Tailwind CSS | schnelles, responsives UI ohne viel Custom-CSS |
-| State/Speicherung | `localStorage` (eigener Wrapper/Hook) | passt zu „keine Server-Anbindung", reicht für Partie- und Verlaufsdaten |
-| i18n | react-i18next mit JSON-Sprachdateien (`de`, `en`) | Standardlösung, deckt Abschnitt 8 ab |
+| State/Speicherung | React-eigener State + eigener `localStorage`-Hook (keine externe State-Library) | reicht für den Projektumfang, Redux/Zustand wäre Over-Engineering |
+| i18n | Eigene schlanke Lösung: JSON-Wörterbücher (`de`, `en`) + React-Context-Hook (keine Library wie react-i18next) | nur 2 Sprachen nötig, Library-Funktionsumfang (Namespaces, Pluralisierung, Lazy-Loading) wird nicht gebraucht |
 | Hosting | GitHub Pages (statischer Build direkt aus dem Repo) | kostenlos, kein Server nötig |
 | Testing | Vitest (+ Testing Library) | passt nativ zu Vite |
 | Optional | PWA (Manifest + Service Worker) | App am Tablet installierbar/offline-fähig machen |
