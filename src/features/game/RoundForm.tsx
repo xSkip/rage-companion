@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useI18n } from '../../i18n/I18nContext'
 import { calculateRoundScore, getCardsForRound } from '../../game/scoring'
 import type { GameVariants, Player, RoundData } from '../../game/types'
@@ -55,6 +55,27 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
 
   const cardsThisRound = getCardsForRound(round)
 
+  // Sequential input chain (prediction, tricks) x players, so pressing Enter on
+  // a mobile on-screen keyboard hops to the next field instead of requiring a tap.
+  const fieldRefs = useRef<Array<HTMLInputElement | null>>([])
+  const fieldCount = players.length * 2
+
+  useEffect(() => {
+    fieldRefs.current[0]?.focus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function handleFieldKeyDown(event: KeyboardEvent<HTMLInputElement>, index: number) {
+    if (event.key !== 'Enter') return
+    event.preventDefault()
+    const next = fieldRefs.current[index + 1]
+    if (next) {
+      next.focus()
+    } else {
+      event.currentTarget.blur()
+    }
+  }
+
   function updateValue(setter: typeof setPredictions, playerId: string, value: string) {
     setter((prev) => ({ ...prev, [playerId]: value }))
   }
@@ -79,19 +100,22 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
 
   const predictionValues = players.map((p) => parseValue(predictions[p.id]))
   const tricksValues = players.map((p) => parseValue(tricksWon[p.id]))
-  const hasAnyInput = players.some((p) => predictions[p.id] !== '' || tricksWon[p.id] !== '')
+  // Sum-based checks can only ever be right once every player's value is in -
+  // checking them earlier would flag the normal, expected mid-entry state as a warning.
+  const allTricksFilled = players.every((p) => tricksWon[p.id] !== '')
+  const allPredictionsFilled = players.every((p) => predictions[p.id] !== '')
 
-  const warnings: ValidationWarning[] = hasAnyInput
-    ? [
-        ...players
-          .map((p) => validatePrediction(parseValue(predictions[p.id]), round))
-          .filter((w): w is ValidationWarning => w !== null),
-        ...[validateTricksSum(tricksValues, round)].filter((w): w is ValidationWarning => w !== null),
-        ...(variants.plusMinusOne
-          ? [validatePlusMinusOne(predictionValues, round)].filter((w): w is ValidationWarning => w !== null)
-          : []),
-      ]
-    : []
+  const warnings: ValidationWarning[] = [
+    ...players
+      .map((p) => validatePrediction(parseValue(predictions[p.id]), round))
+      .filter((w): w is ValidationWarning => w !== null),
+    ...(allTricksFilled
+      ? [validateTricksSum(tricksValues, round)].filter((w): w is ValidationWarning => w !== null)
+      : []),
+    ...(variants.plusMinusOne && allPredictionsFilled
+      ? [validatePlusMinusOne(predictionValues, round)].filter((w): w is ValidationWarning => w !== null)
+      : []),
+  ]
 
   return (
     <div className="flex flex-col gap-4">
@@ -109,7 +133,7 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
             </tr>
           </thead>
           <tbody>
-            {players.map((player) => {
+            {players.map((player, playerIndex) => {
               const liveScore = calculateRoundScore(
                 {
                   round,
@@ -119,14 +143,21 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
                 },
                 { durchmarschEnabled: variants.durchmarsch },
               )
+              const predictionIndex = playerIndex * 2
+              const tricksIndex = predictionIndex + 1
               return (
                 <tr key={player.id} className="border-b border-slate-800">
                   <td className="max-w-[4.5rem] truncate py-2 pr-1 font-medium sm:max-w-none sm:pr-2">{player.name}</td>
                   <td className="px-1 py-2 sm:px-2">
                     <input
                       type="number"
+                      ref={(el) => {
+                        fieldRefs.current[predictionIndex] = el
+                      }}
                       value={predictions[player.id]}
                       onChange={(e) => updateValue(setPredictions, player.id, e.target.value)}
+                      onKeyDown={(e) => handleFieldKeyDown(e, predictionIndex)}
+                      enterKeyHint={predictionIndex < fieldCount - 1 ? 'next' : 'done'}
                       aria-label={t('round.predictionLabel', { name: player.name })}
                       className="w-11 rounded border border-slate-600 bg-slate-800 px-1 py-2 text-base sm:w-20 sm:px-2 sm:py-1"
                     />
@@ -134,8 +165,13 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
                   <td className="px-1 py-2 sm:px-2">
                     <input
                       type="number"
+                      ref={(el) => {
+                        fieldRefs.current[tricksIndex] = el
+                      }}
                       value={tricksWon[player.id]}
                       onChange={(e) => updateValue(setTricksWon, player.id, e.target.value)}
+                      onKeyDown={(e) => handleFieldKeyDown(e, tricksIndex)}
+                      enterKeyHint={tricksIndex < fieldCount - 1 ? 'next' : 'done'}
                       aria-label={t('round.tricksLabel', { name: player.name })}
                       className="w-11 rounded border border-slate-600 bg-slate-800 px-1 py-2 text-base sm:w-20 sm:px-2 sm:py-1"
                     />

@@ -62,11 +62,22 @@ describe('RoundEntryScreen', () => {
     expect(screen.getByText('12')).toBeInTheDocument()
   })
 
-  it('shows a non-blocking warning when the tricks sum does not match the cards dealt', async () => {
+  it('does not show the tricks-sum warning while only some players have a value yet', async () => {
     const user = userEvent.setup()
     renderScreen([])
 
     await user.type(screen.getByLabelText('Stiche Christine'), '1')
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('shows a non-blocking warning once every player has a tricks value but the sum is wrong', async () => {
+    const user = userEvent.setup()
+    renderScreen([])
+
+    for (const name of ['Christine', 'Kirsten', 'Kira']) {
+      await user.type(screen.getByLabelText(`Stiche ${name}`), '1')
+    }
 
     expect(screen.getByRole('alert')).toHaveTextContent(/entspricht nicht der kartenanzahl/i)
   })
@@ -271,6 +282,36 @@ describe('RoundEntryScreen', () => {
 
       expect(screen.getByLabelText('−5 Karten Christine')).toHaveTextContent('2')
       expect(screen.getByLabelText('+5 Karten Christine')).toHaveTextContent('0')
+    })
+  })
+
+  describe('keyboard flow', () => {
+    it('auto-focuses the first prediction field when a new round form appears', () => {
+      renderScreen([])
+      expect(screen.getByLabelText('Vorhersage Christine')).toHaveFocus()
+    })
+
+    it('moves focus to the next field in sequence when Enter is pressed', async () => {
+      const user = userEvent.setup()
+      renderScreen([])
+
+      const predictionChristine = screen.getByLabelText('Vorhersage Christine')
+      predictionChristine.focus()
+      await user.keyboard('2{Enter}')
+      expect(screen.getByLabelText('Stiche Christine')).toHaveFocus()
+
+      await user.keyboard('2{Enter}')
+      expect(screen.getByLabelText('Vorhersage Kirsten')).toHaveFocus()
+    })
+
+    it('blurs the last field instead of erroring when Enter is pressed there', async () => {
+      const user = userEvent.setup()
+      renderScreen([])
+
+      const tricksKira = screen.getByLabelText('Stiche Kira')
+      tricksKira.focus()
+      await user.keyboard('{Enter}')
+      expect(tricksKira).not.toHaveFocus()
     })
   })
 
