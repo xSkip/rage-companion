@@ -23,9 +23,11 @@ zeigt den Punktestand laufend an und bietet zusätzlichen Komfort (Regel-Nachsch
 
 - 10 Runden. Karten pro Spieler: Runde 1 = 10 Karten, Runde 2 = 9, …, Runde 10 = 1 Karte.
 - Pro Runde: jeder Spieler sagt vorher, wie viele Stiche er gewinnt (Vorhersage).
-- Nach der Runde: Punkte pro Spieler =
-  - **Vorhersage korrekt:** gewonnene Stiche + 10 Bonuspunkte + Sonderkartenpunkte (+5/−5)
-  - **Vorhersage falsch:** −5 Punkte (pauschal, unabhängig von der Differenz) + Sonderkartenpunkte
+- Nach der Runde: Punkte pro Spieler = gewonnene Stiche (1 Punkt je Stich, siehe Durchmarsch-Variante)
+  + Vorhersage-Bonus/-Malus + Sonderkartenpunkte (+5/−5)
+  - **Vorhersage korrekt:** Vorhersage-Bonus = +10
+  - **Vorhersage falsch:** Vorhersage-Bonus = −5 (Stichpunkte bleiben trotzdem erhalten)
+  - Beispiel: 5 Stiche vorhergesagt, 6 tatsächlich gemacht (falsch) → 6 (Stiche) − 5 (Malus) = 1 Punkt
 - Sonderkartenpunkte (+5/−5) fallen an, wenn eine gewonnene Stich-Reihe eine +5- oder −5-Karte enthält.
 - Nach 10 Runden gewinnt, wer die meisten Gesamtpunkte hat. Gleichstand an der Spitze = gemeinsamer Sieg.
 - **Varianten** (offiziell, optional aktivierbar): Plus/Minus Eins, Verdeckter Tipp, Geheime Vorhersage,
