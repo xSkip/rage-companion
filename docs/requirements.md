@@ -71,9 +71,9 @@ echten Karten.
 
 ## 8. Internationalisierung
 
-- Die Sprache muss in der App **umschaltbar** sein (Spracheinstellung durch den Nutzer).
-- Startsprache: Deutsch. Weitere Sprachen (mind. Englisch) sollen ohne Architektur-Änderung
-  nachrüstbar sein (Texte von Anfang an über eine i18n-Struktur auslagern, nicht hartcodieren).
+- Die Sprache muss in der App zwischen **Deutsch und Englisch umschaltbar** sein.
+- Startsprache: Deutsch. Texte von Anfang an über eine i18n-Struktur auslagern (nicht hartcodieren),
+  damit ggf. später weitere Sprachen ergänzt werden können.
 
 ## 9. Zielplattform
 
@@ -82,16 +82,28 @@ echten Karten.
 
 ## 10. Tech Stack
 
-_TBD — wird in einem separaten Schritt entschieden (Frontend-Framework, Hosting)._
+| Bereich | Wahl | Begründung |
+|---|---|---|
+| Framework | React + TypeScript | breite Tooling-/Community-Unterstützung, gut erweiterbar |
+| Build-Tool | Vite | schneller Dev-Server, einfacher Static Build |
+| Styling | Tailwind CSS | schnelles, responsives UI ohne viel Custom-CSS |
+| State/Speicherung | `localStorage` (eigener Wrapper/Hook) | passt zu „keine Server-Anbindung", reicht für Partie- und Verlaufsdaten |
+| i18n | react-i18next mit JSON-Sprachdateien (`de`, `en`) | Standardlösung, deckt Abschnitt 8 ab |
+| Hosting | GitHub Pages (statischer Build direkt aus dem Repo) | kostenlos, kein Server nötig |
+| Testing | Vitest (+ Testing Library) | passt nativ zu Vite |
+| Optional | PWA (Manifest + Service Worker) | App am Tablet installierbar/offline-fähig machen |
 
 ## 11. Design & Look and Feel
 
-_TBD — Anlehnung an RAGE-Branding (siehe Kartendesign in der Anleitung)?_
+- Farbpalette und comic-artige, kräftige Bildsprache dürfen sich an den RAGE-Spielkarten orientieren
+  (Gelb, Orange, Rot, Lila, Blau, Grün — reine Stilelemente, nicht geschützt).
+- **Nicht verwendet werden dürfen:** das AMIGO-/RAGE-Logo, Original-Illustrationen/Kartengrafiken oder
+  die Original-Wortmarke „RAGE" im Amigo-Schriftbild.
+- Es wird ein **eigenständiges Icon/Wortmarke** für die App entwickelt.
 
 ## 12. Offene Fragen
 
-- [ ] Tech-Stack-Entscheidung (Framework, Hosting)
-- [ ] Design-/Branding-Richtung
+- [ ] Konkrete Farbpalette/Wortmarke für eigenes Design festlegen
 - [ ] Reihenfolge/Priorisierung der Nice-to-Have-Features für einen ersten Release
 
 ---
