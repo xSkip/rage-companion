@@ -58,9 +58,26 @@ echten Karten.
 ## 6. Regel-Varianten (Soll-Have)
 
 8. Aktivierbare offizielle Varianten beim Partie-Start (siehe Abschnitt 3):
-   - Plus/Minus Eins
+   - Plus/Minus Eins (Vorhersagesumme darf nicht der Kartenanzahl der Runde entsprechen —
+     Umsetzung als weiche Validierung, siehe Abschnitt 5a)
    - Verdeckter Tipp / Geheime Vorhersage (reine Ablauf-/UI-Hilfe, kein Effekt auf Berechnung)
    - Durchmarsch (Sonderregel für Punkteberechnung bei vollständigem Stichgewinn)
+
+## 5a. Validierung von Eingaben
+
+Die App soll Tippfehler/unplausible Werte reduzieren (siehe Zielsetzung, Abschnitt 2), dabei aber ein
+**Begleiter, kein Schiedsrichter** sein — Hausregeln oder bewusste Abweichungen am Tisch dürfen nicht
+blockiert werden.
+
+- Eingaben werden **weich validiert**: bei unplausiblen Werten wird ein Hinweis angezeigt, das Speichern
+  wird aber nicht verhindert.
+- Geprüfte Fälle:
+  - Vorhersage höher als die in dieser Runde ausgeteilten Karten
+  - Summe der gewonnenen Stiche aller Spieler ≠ Kartenanzahl der Runde (jeder Stich hat genau einen Gewinner)
+  - Bei aktivierter Variante „Plus/Minus Eins": Summe der Vorhersagen = Kartenanzahl der Runde
+- Sonderkarten-Bonus (+5/−5) wird als **freies Zahlenfeld pro Spieler und Runde** erfasst (Schrittweite 5,
+  positiv oder negativ), da ein Spieler mehrere Sonderkarten in einer Runde gewinnen kann (z. B. zwei
+  +5-Karten = +10).
 
 ## 7. Zusätzliche Komfort-Features (Nice-to-Have)
 
@@ -109,8 +126,8 @@ und Wartbarkeit die sinnvollste Wahl.
 
 ## 12. Offene Fragen
 
-- [ ] Konkrete Farbpalette/Wortmarke für eigenes Design festlegen
-- [ ] Reihenfolge/Priorisierung der Nice-to-Have-Features für einen ersten Release
+- [ ] Konkrete Farbpalette/Wortmarke für eigenes Design festlegen (blockiert Implementierungsstart nicht,
+      da Meilenstein 1–2 keine finale Optik brauchen — siehe status.md)
 
 ---
 

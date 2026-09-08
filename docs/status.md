@@ -21,6 +21,8 @@
 - [ ] Reine TypeScript-Funktionen für die Punkteberechnung (Abschnitt 3 der Anforderungen)
 - [ ] Vitest-Unit-Tests für alle Fälle: korrekte/falsche Vorhersage, +5/−5-Bonus, Durchmarsch-Variante
 - [ ] Sieger-/Gleichstand-Logik (Abschnitt 5.5) als eigene getestete Funktion
+- [ ] Weiche Validierungs-Funktionen (Abschnitt 5a): Vorhersage vs. Kartenanzahl, Stichsumme vs.
+      Kartenanzahl, Plus/Minus-Eins-Check — geben Warnung zurück, blockieren nichts
 
 ## Meilenstein 3 — Partie-Setup-Screen
 
@@ -30,8 +32,10 @@
 
 ## Meilenstein 4 — Rundenraster mit Live-Berechnung & Rangliste
 
-- [ ] Rundenweise Erfassung (Vorhersage, gewonnene Stiche, Sonderpunkte), Kartenanzahl 10→1 automatisch angezeigt
+- [ ] Rundenweise Erfassung (Vorhersage, gewonnene Stiche, Sonderpunkte als freies Zahlenfeld),
+      Kartenanzahl 10→1 automatisch angezeigt
 - [ ] Punkte pro Runde live berechnet (nutzt Meilenstein 2)
+- [ ] Weiche Validierungshinweise bei unplausiblen Werten (nutzt Meilenstein 2, blockiert nicht)
 - [ ] Laufende Rangliste nach jeder Runde
 
 ## Meilenstein 5 — Lokale Speicherung & Korrektur
