@@ -30,11 +30,12 @@
       Kartenanzahl, Plus/Minus-Eins-Check — `src/game/validation.ts`, geben Warnung zurück, blockieren nichts
 - [x] CI führt Testsuite vor jedem Build/Deploy aus
 
-## Meilenstein 3 — Partie-Setup-Screen
+## Meilenstein 3 — Partie-Setup-Screen ✅
 
-- [ ] Spielernamen eingeben (3–8 Spieler)
-- [ ] Regel-Varianten beim Start auswählbar (UI-Toggles, Logik kommt aus Meilenstein 2)
-- [ ] Neue Partie anlegen
+- [x] Spielernamen eingeben (3–8 Spieler) — `src/features/setup/PlayerSetupScreen.tsx`
+- [x] Regel-Varianten beim Start auswählbar (UI-Toggles, Logik kommt aus Meilenstein 2)
+- [x] Neue Partie anlegen — Formular validiert nur fehlende Namen (blockierend, strukturelle
+      Spielregel), keine weiche Validierung nötig da kein Gameplay-Wert
 
 ## Meilenstein 4 — Rundenraster mit Live-Berechnung & Rangliste
 
