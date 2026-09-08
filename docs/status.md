@@ -64,9 +64,11 @@
       `src/i18n/I18nContext.tsx`, `src/i18n/dictionaries/`
 - [x] Sprachumschaltung in der App — `LanguageSwitcher.tsx`, Wahl wird in `localStorage` gemerkt
 
-## Meilenstein 8 — Responsive-Feinschliff
+## Meilenstein 8 — Responsive-Feinschliff ✅
 
-- [ ] Layout für Mobile/Tablet geprüft und optimiert (Gerät wird am Tisch herumgereicht)
+- [x] Layout für Mobile/Tablet geprüft und optimiert (Gerät wird am Tisch herumgereicht) — Rundenraster
+      verschlankt (passt jetzt ohne horizontales Scrollen auf 375px-Breite), alle Screens in
+      375×812 und 768×1024 manuell verifiziert
 
 **→ Ab hier ist der MVP (Wertungsblatt-Ersatz) vollständig.**
 
