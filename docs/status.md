@@ -72,11 +72,12 @@
 
 **→ Ab hier ist der MVP (Wertungsblatt-Ersatz) vollständig.**
 
-## Meilenstein 9 — Komfort-Features (Nice-to-Have)
+## Meilenstein 9 — Komfort-Features (Nice-to-Have) ✅
 
-- [ ] Regel-Kurzreferenz in der App
-- [ ] Verlauf & Statistiken über mehrere Partien
-- [ ] Partie teilen/exportieren
+- [x] Regel-Kurzreferenz in der App — `src/features/rules/RulesModal.tsx`, von jedem Screen erreichbar
+- [x] Verlauf & Statistiken über mehrere Partien — `src/game/history.ts`, `HistoryScreen.tsx`,
+      automatische Archivierung bei Spielende (bleibt bei nachträglicher Korrektur synchron)
+- [x] Partie teilen/exportieren — `ShareButton.tsx`, Web-Share-API mit Zwischenablage-Fallback
 
 ## Meilenstein 10 — PWA
 
