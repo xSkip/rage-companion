@@ -15,9 +15,26 @@ const config: GameConfig = {
   createdAt: new Date().toISOString(),
 }
 
+function renderScreen(rounds: RoundData[] = [], overrides: Partial<Parameters<typeof RoundEntryScreen>[0]> = {}) {
+  const onRoundComplete = vi.fn()
+  const onRoundEdit = vi.fn()
+  const onNewGame = vi.fn()
+  const utils = render(
+    <RoundEntryScreen
+      config={config}
+      rounds={rounds}
+      onRoundComplete={onRoundComplete}
+      onRoundEdit={onRoundEdit}
+      onNewGame={onNewGame}
+      {...overrides}
+    />,
+  )
+  return { ...utils, onRoundComplete, onRoundEdit, onNewGame }
+}
+
 describe('RoundEntryScreen', () => {
   it('shows round 1 with 10 cards when no rounds have been played', () => {
-    render(<RoundEntryScreen config={config} rounds={[]} onRoundComplete={vi.fn()} />)
+    renderScreen([])
     expect(screen.getByRole('heading', { name: /runde 1 von 10/i })).toBeInTheDocument()
     expect(screen.getByText(/10 karten pro spieler/i)).toBeInTheDocument()
   })
@@ -29,36 +46,33 @@ describe('RoundEntryScreen', () => {
       tricksWon: { p1: 1, p2: 1, p3: 1 },
       specialCardPoints: { p1: 0, p2: 0, p3: 0 },
     }))
-    render(<RoundEntryScreen config={config} rounds={rounds} onRoundComplete={vi.fn()} />)
+    renderScreen(rounds)
     expect(screen.getByRole('heading', { name: /runde 6 von 10/i })).toBeInTheDocument()
     expect(screen.getByText(/5 karten pro spieler/i)).toBeInTheDocument()
   })
 
   it('live-updates the round score as values are entered', async () => {
     const user = userEvent.setup()
-    render(<RoundEntryScreen config={config} rounds={[]} onRoundComplete={vi.fn()} />)
+    renderScreen([])
 
     await user.type(screen.getByLabelText('Vorhersage Christine'), '2')
     await user.type(screen.getByLabelText('Stiche Christine'), '2')
 
-    // correct prediction: 2 tricks + 10 bonus = 12
     expect(screen.getByText('12')).toBeInTheDocument()
   })
 
   it('shows a non-blocking warning when the tricks sum does not match the cards dealt', async () => {
     const user = userEvent.setup()
-    render(<RoundEntryScreen config={config} rounds={[]} onRoundComplete={vi.fn()} />)
+    renderScreen([])
 
     await user.type(screen.getByLabelText('Stiche Christine'), '1')
-    // sum of tricks (1) does not match the 10 cards dealt in round 1
 
     expect(screen.getByRole('alert')).toHaveTextContent(/entspricht nicht der kartenanzahl/i)
   })
 
-  it('calls onRoundComplete with parsed values and resets the form for the next round', async () => {
+  it('calls onRoundComplete with parsed values; the parent advancing `rounds` resets the form', async () => {
     const user = userEvent.setup()
-    const onRoundComplete = vi.fn()
-    render(<RoundEntryScreen config={config} rounds={[]} onRoundComplete={onRoundComplete} />)
+    const { onRoundComplete, rerender } = renderScreen([])
 
     await user.type(screen.getByLabelText('Vorhersage Christine'), '2')
     await user.type(screen.getByLabelText('Stiche Christine'), '2')
@@ -75,7 +89,17 @@ describe('RoundEntryScreen', () => {
     expect(round.predictions).toEqual({ p1: 2, p2: 3, p3: 5 })
     expect(round.tricksWon).toEqual({ p1: 2, p2: 3, p3: 5 })
 
-    // form resets for the next round
+    // simulate the parent (App) appending the completed round, as it does in the real app
+    rerender(
+      <RoundEntryScreen
+        config={config}
+        rounds={[round]}
+        onRoundComplete={onRoundComplete}
+        onRoundEdit={vi.fn()}
+        onNewGame={vi.fn()}
+      />,
+    )
+    expect(screen.getByRole('heading', { name: /runde 2 von 10/i })).toBeInTheDocument()
     expect(screen.getByLabelText('Vorhersage Christine')).toHaveValue(null)
   })
 
@@ -86,7 +110,81 @@ describe('RoundEntryScreen', () => {
       tricksWon: { p1: 1, p2: 1, p3: 1 },
       specialCardPoints: { p1: 0, p2: 0, p3: 0 },
     }))
-    render(<RoundEntryScreen config={config} rounds={rounds} onRoundComplete={vi.fn()} />)
+    renderScreen(rounds)
     expect(screen.getByRole('heading', { name: /alle 10 runden gespielt/i })).toBeInTheDocument()
+  })
+
+  describe('editing a previous round', () => {
+    const existingRound: RoundData = {
+      round: 1,
+      predictions: { p1: 2, p2: 3, p3: 5 },
+      tricksWon: { p1: 2, p2: 3, p3: 5 },
+      specialCardPoints: { p1: 0, p2: 0, p3: 0 },
+    }
+
+    it('lists recorded rounds with per-player scores and an edit button', () => {
+      renderScreen([existingRound])
+      expect(screen.getByText(/runde 1:/i)).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /bearbeiten/i })).toBeInTheDocument()
+    })
+
+    it('pre-fills the form with the round being edited and calls onRoundEdit on save', async () => {
+      const user = userEvent.setup()
+      const { onRoundEdit } = renderScreen([existingRound])
+
+      await user.click(screen.getByRole('button', { name: /bearbeiten/i }))
+
+      expect(screen.getByRole('heading', { name: /runde 1 bearbeiten/i })).toBeInTheDocument()
+      expect(screen.getByLabelText('Vorhersage Christine')).toHaveValue(2)
+
+      await user.clear(screen.getByLabelText('Stiche Christine'))
+      await user.type(screen.getByLabelText('Stiche Christine'), '4')
+      await user.click(screen.getByRole('button', { name: /runde 1 speichern/i }))
+
+      expect(onRoundEdit).toHaveBeenCalledTimes(1)
+      const edited = onRoundEdit.mock.calls[0][0] as RoundData
+      expect(edited.tricksWon.p1).toBe(4)
+    })
+
+    it('does not advance to a new round while editing an earlier one, even if the game is finished', async () => {
+      const user = userEvent.setup()
+      const allRounds: RoundData[] = Array.from({ length: 10 }, (_, i) => ({
+        round: i + 1,
+        predictions: { p1: 1, p2: 1, p3: 1 },
+        tricksWon: { p1: 1, p2: 1, p3: 1 },
+        specialCardPoints: { p1: 0, p2: 0, p3: 0 },
+      }))
+      renderScreen(allRounds)
+
+      const editButtons = screen.getAllByRole('button', { name: /bearbeiten/i })
+      await user.click(editButtons[0])
+
+      expect(screen.getByRole('heading', { name: /runde 1 bearbeiten/i })).toBeInTheDocument()
+      expect(screen.queryByRole('heading', { name: /alle 10 runden gespielt/i })).not.toBeInTheDocument()
+    })
+
+    it('cancels editing without calling onRoundEdit', async () => {
+      const user = userEvent.setup()
+      const { onRoundEdit } = renderScreen([existingRound])
+
+      await user.click(screen.getByRole('button', { name: /bearbeiten/i }))
+      await user.click(screen.getByRole('button', { name: /abbrechen/i }))
+
+      expect(screen.getByRole('heading', { name: /runde 2 von 10/i })).toBeInTheDocument()
+      expect(onRoundEdit).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('starting a new game', () => {
+    it('requires a confirmation click before calling onNewGame', async () => {
+      const user = userEvent.setup()
+      const { onNewGame } = renderScreen([])
+
+      await user.click(screen.getByRole('button', { name: /^neue partie$/i }))
+      expect(onNewGame).not.toHaveBeenCalled()
+
+      await user.click(screen.getByRole('button', { name: /ja, neue partie/i }))
+      expect(onNewGame).toHaveBeenCalledTimes(1)
+    })
   })
 })

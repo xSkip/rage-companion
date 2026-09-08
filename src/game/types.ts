@@ -28,6 +28,11 @@ export interface RoundData {
   specialCardPoints: Record<string, number>
 }
 
+export interface GameSession {
+  config: GameConfig
+  rounds: RoundData[]
+}
+
 export interface RoundInput {
   round: number
   prediction: number
