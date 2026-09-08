@@ -74,7 +74,6 @@
 
 ## Meilenstein 9 — Komfort-Features (Nice-to-Have)
 
-- [ ] Trumpffarbe pro Runde vermerken
 - [ ] Regel-Kurzreferenz in der App
 - [ ] Verlauf & Statistiken über mehrere Partien
 - [ ] Partie teilen/exportieren

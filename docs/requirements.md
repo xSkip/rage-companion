@@ -83,10 +83,12 @@ blockiert werden.
 
 ## 7. Zusätzliche Komfort-Features (Nice-to-Have)
 
-9. **Trumpffarbe pro Runde** vermerken (reine Anzeige/Erinnerung, kein Effekt auf Berechnung).
-10. **Verlauf & Statistiken** über mehrere gespeicherte Partien hinweg (Siegstatistik, Punkteschnitt pro Spieler).
-11. **Regel-Kurzreferenz** in der App (Wirkung von Joker, Trumpfwechsel, Kein Trumpf, +5/−5 zum Nachschlagen).
-12. **Partie teilen/exportieren** (z. B. Endstand als Bild oder Text).
+9. **Verlauf & Statistiken** über mehrere gespeicherte Partien hinweg (Siegstatistik, Punkteschnitt pro Spieler).
+10. **Regel-Kurzreferenz** in der App (Wirkung von Joker, Trumpfwechsel, Kein Trumpf, +5/−5 zum Nachschlagen).
+11. **Partie teilen/exportieren** (z. B. Endstand als Bild oder Text).
+
+> Gestrichen: "Trumpffarbe pro Runde vermerken" — vom Projektinhaber nach Rücksprache als nicht mehr
+> sinnvoll eingestuft.
 
 ## 8. Internationalisierung
 
