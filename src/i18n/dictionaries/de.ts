@@ -65,6 +65,38 @@ const de = {
   language: {
     label: 'Sprache',
   },
+  rules: {
+    trigger: 'Regeln',
+    title: 'Regel-Kurzreferenz',
+    close: 'Schließen',
+    jokerTitle: 'Joker',
+    jokerText:
+      'Du sagst eine beliebige Farbe an — der Joker wird zur höchsten Karte dieser Farbe und kann auch die aktuelle Trumpffarbe annehmen.',
+    trumpfwechselTitle: 'Trumpfwechsel',
+    trumpfwechselText:
+      'Deckt Karten vom Nachziehstapel auf. Die erste aufgedeckte Farbkarte bestimmt die neue Trumpffarbe.',
+    keinTrumpfTitle: 'Kein Trumpf',
+    keinTrumpfText: 'Für den aktuellen Stich gibt es keine Trumpffarbe.',
+    specialCardsTitle: '+5 / −5',
+    specialCardsText: 'Wer den Stich mit dieser Karte gewinnt, erhält die Punkte am Ende der Runde.',
+  },
+  history: {
+    trigger: 'Statistik',
+    backToGame: 'Zurück zur Partie',
+    title: 'Verlauf & Statistiken',
+    emptyState: 'Noch keine abgeschlossene Partie gespeichert.',
+    gamesTitle: 'Vergangene Partien',
+    playerStatsTitle: 'Spielerstatistik',
+    winnerLabel: 'Sieger: {{names}}',
+    winsLabel: '{{count}} Siege',
+    gamesPlayedLabel: '{{count}} Partien',
+    averageScoreLabel: 'Ø {{average}} Punkte',
+  },
+  share: {
+    button: 'Ergebnis teilen',
+    copied: 'In Zwischenablage kopiert!',
+    textTitle: 'RAGE-Ergebnis',
+  },
 }
 
 export default de

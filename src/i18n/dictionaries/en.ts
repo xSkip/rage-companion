@@ -66,6 +66,37 @@ const en = {
   language: {
     label: 'Language',
   },
+  rules: {
+    trigger: 'Rules',
+    title: 'Rules quick reference',
+    close: 'Close',
+    jokerTitle: 'Joker',
+    jokerText:
+      'Name any color — the Joker becomes the highest card of that color and can also take on the current trump color.',
+    trumpfwechselTitle: 'Trump change',
+    trumpfwechselText: 'Reveal cards from the draw pile. The first revealed color card sets the new trump color.',
+    keinTrumpfTitle: 'No trump',
+    keinTrumpfText: 'The current trick has no trump color.',
+    specialCardsTitle: '+5 / −5',
+    specialCardsText: 'Whoever wins the trick containing this card gets the points at the end of the round.',
+  },
+  history: {
+    trigger: 'Stats',
+    backToGame: 'Back to game',
+    title: 'History & Stats',
+    emptyState: 'No completed game saved yet.',
+    gamesTitle: 'Past games',
+    playerStatsTitle: 'Player stats',
+    winnerLabel: 'Winner: {{names}}',
+    winsLabel: '{{count}} wins',
+    gamesPlayedLabel: '{{count}} games',
+    averageScoreLabel: 'Avg. {{average}} points',
+  },
+  share: {
+    button: 'Share result',
+    copied: 'Copied to clipboard!',
+    textTitle: 'RAGE result',
+  },
 } satisfies typeof de
 
 export default en

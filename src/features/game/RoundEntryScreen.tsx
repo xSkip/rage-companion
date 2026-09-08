@@ -6,6 +6,7 @@ import { TOTAL_ROUNDS, type GameConfig, type RoundData } from '../../game/types'
 import { NewGameButton } from './NewGameButton'
 import { RoundForm } from './RoundForm'
 import { RoundHistory } from './RoundHistory'
+import { ShareButton } from './ShareButton'
 import { StandingsTable } from './StandingsTable'
 import { WinnerBanner } from './WinnerBanner'
 
@@ -75,6 +76,10 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
             <p className="mb-2 text-sm text-slate-400">{t('round.finalStandingsLabel')}</p>
             <StandingsTable standings={standings} winnerIds={winnerIds} />
           </div>
+          <ShareButton
+            standings={standings}
+            winnerNames={standings.filter((s) => winnerIds.includes(s.id)).map((s) => s.name)}
+          />
         </div>
       )}
 
