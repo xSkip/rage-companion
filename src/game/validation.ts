@@ -1,22 +1,20 @@
 import { getCardsForRound } from './scoring'
 
 export interface ValidationWarning {
-  code: string
-  message: string
+  code: 'predictionOutOfRange' | 'tricksSumMismatch' | 'plusMinusOneViolation'
+  params: Record<string, number>
 }
 
 /**
  * All checks here are soft (non-blocking): the app is a companion, not a
- * referee. They return a warning to display, but never prevent saving.
+ * referee. They return a warning (code + params, translated by the UI
+ * layer), but never prevent saving.
  */
 
 export function validatePrediction(prediction: number, round: number): ValidationWarning | null {
   const cards = getCardsForRound(round)
   if (prediction < 0 || prediction > cards) {
-    return {
-      code: 'prediction-out-of-range',
-      message: `Vorhersage sollte zwischen 0 und ${cards} liegen (${cards} Karten in dieser Runde).`,
-    }
+    return { code: 'predictionOutOfRange', params: { cards } }
   }
   return null
 }
@@ -25,10 +23,7 @@ export function validateTricksSum(tricksWonByPlayer: number[], round: number): V
   const cards = getCardsForRound(round)
   const sum = tricksWonByPlayer.reduce((a, b) => a + b, 0)
   if (sum !== cards) {
-    return {
-      code: 'tricks-sum-mismatch',
-      message: `Die Summe der gewonnenen Stiche (${sum}) entspricht nicht der Kartenanzahl dieser Runde (${cards}).`,
-    }
+    return { code: 'tricksSumMismatch', params: { sum, cards } }
   }
   return null
 }
@@ -41,10 +36,7 @@ export function validatePlusMinusOne(predictions: number[], round: number): Vali
   const cards = getCardsForRound(round)
   const sum = predictions.reduce((a, b) => a + b, 0)
   if (sum === cards) {
-    return {
-      code: 'plus-minus-one-violation',
-      message: `Bei aktivierter Variante "Plus/Minus Eins" darf die Summe der Vorhersagen (${sum}) nicht der Kartenanzahl (${cards}) entsprechen.`,
-    }
+    return { code: 'plusMinusOneViolation', params: { sum, cards } }
   }
   return null
 }

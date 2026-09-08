@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { MAX_PLAYERS, MIN_PLAYERS } from '../../game/types'
+import { renderWithProviders as render } from '../../test/renderWithProviders'
 import { PlayerSetupScreen } from './PlayerSetupScreen'
 
 describe('PlayerSetupScreen', () => {

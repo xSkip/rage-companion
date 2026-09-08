@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import type { Standing } from '../../game/standings'
+import { renderWithProviders as render } from '../../test/renderWithProviders'
 import { WinnerBanner } from './WinnerBanner'
 
 const standings: Standing[] = [

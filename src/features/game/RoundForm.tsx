@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useI18n } from '../../i18n/I18nContext'
 import { calculateRoundScore, getCardsForRound } from '../../game/scoring'
 import type { GameVariants, Player, RoundData } from '../../game/types'
 import { validatePlusMinusOne, validatePrediction, validateTricksSum, type ValidationWarning } from '../../game/validation'
@@ -25,6 +26,7 @@ interface RoundFormProps {
 }
 
 export function RoundForm({ round, players, variants, initialData, onSubmit, onCancel, submitLabel }: RoundFormProps) {
+  const { t } = useI18n()
   const [predictions, setPredictions] = useState<DraftValues>(() => draftFrom(players, initialData, 'predictions'))
   const [tricksWon, setTricksWon] = useState<DraftValues>(() => draftFrom(players, initialData, 'tricksWon'))
   const [specialCardPoints, setSpecialCardPoints] = useState<DraftValues>(() =>
@@ -67,17 +69,17 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-slate-400">{cardsThisRound} Karten pro Spieler</p>
+      <p className="text-sm text-slate-400">{t('round.cardsInfo', { count: cardsThisRound })}</p>
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[520px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-slate-700 text-left text-slate-400">
-              <th className="py-2 pr-2">Spieler</th>
-              <th className="px-2 py-2">Vorhersage</th>
-              <th className="px-2 py-2">Stiche</th>
-              <th className="px-2 py-2">Sonderpunkte</th>
-              <th className="py-2 pl-2 text-right">Punkte</th>
+              <th className="py-2 pr-2">{t('round.columnPlayer')}</th>
+              <th className="px-2 py-2">{t('round.columnPrediction')}</th>
+              <th className="px-2 py-2">{t('round.columnTricks')}</th>
+              <th className="px-2 py-2">{t('round.columnSpecial')}</th>
+              <th className="py-2 pl-2 text-right">{t('round.columnPoints')}</th>
             </tr>
           </thead>
           <tbody>
@@ -99,7 +101,7 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
                       type="number"
                       value={predictions[player.id]}
                       onChange={(e) => updateValue(setPredictions, player.id, e.target.value)}
-                      aria-label={`Vorhersage ${player.name}`}
+                      aria-label={t('round.predictionLabel', { name: player.name })}
                       className="w-16 rounded border border-slate-600 bg-slate-800 px-2 py-2 text-base sm:w-20 sm:py-1"
                     />
                   </td>
@@ -108,7 +110,7 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
                       type="number"
                       value={tricksWon[player.id]}
                       onChange={(e) => updateValue(setTricksWon, player.id, e.target.value)}
-                      aria-label={`Stiche ${player.name}`}
+                      aria-label={t('round.tricksLabel', { name: player.name })}
                       className="w-16 rounded border border-slate-600 bg-slate-800 px-2 py-2 text-base sm:w-20 sm:py-1"
                     />
                   </td>
@@ -118,7 +120,7 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
                       step={5}
                       value={specialCardPoints[player.id]}
                       onChange={(e) => updateValue(setSpecialCardPoints, player.id, e.target.value)}
-                      aria-label={`Sonderpunkte ${player.name}`}
+                      aria-label={t('round.specialLabel', { name: player.name })}
                       className="w-16 rounded border border-slate-600 bg-slate-800 px-2 py-2 text-base sm:w-20 sm:py-1"
                     />
                   </td>
@@ -134,11 +136,11 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
         <ul className="flex flex-col gap-1">
           {warnings.map((warning) => (
             <li
-              key={warning.code + warning.message}
+              key={warning.code}
               role="alert"
               className="rounded border border-amber-500 bg-amber-950 px-3 py-2 text-sm text-amber-200"
             >
-              {warning.message}
+              {t(`validation.${warning.code}`, warning.params)}
             </li>
           ))}
         </ul>
@@ -158,7 +160,7 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
             onClick={onCancel}
             className="rounded border border-slate-600 px-4 py-2 font-semibold text-slate-300 hover:bg-slate-800"
           >
-            Abbrechen
+            {t('round.cancel')}
           </button>
         )}
       </div>

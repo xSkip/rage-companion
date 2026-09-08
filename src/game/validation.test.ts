@@ -8,15 +8,15 @@ describe('validatePrediction', () => {
 
   it('warns when the prediction exceeds the cards dealt this round', () => {
     const warning = validatePrediction(9, 8) // round 8 has 3 cards
-    expect(warning?.code).toBe('prediction-out-of-range')
+    expect(warning?.code).toBe('predictionOutOfRange')
+    expect(warning?.params).toEqual({ cards: 3 })
   })
 
   it('warns for a negative prediction', () => {
-    expect(validatePrediction(-1, 1)?.code).toBe('prediction-out-of-range')
+    expect(validatePrediction(-1, 1)?.code).toBe('predictionOutOfRange')
   })
 
   it('does not block - only returns a warning object', () => {
-    // sanity check that the function is pure and side-effect free
     const warning = validatePrediction(99, 1)
     expect(warning).not.toBeNull()
   })
@@ -29,7 +29,8 @@ describe('validateTricksSum', () => {
 
   it('warns when the tricks sum does not match the cards dealt this round', () => {
     const warning = validateTricksSum([2, 1, 1], 5) // round 5 has 6 cards, sum is 4
-    expect(warning?.code).toBe('tricks-sum-mismatch')
+    expect(warning?.code).toBe('tricksSumMismatch')
+    expect(warning?.params).toEqual({ sum: 4, cards: 6 })
   })
 })
 
@@ -40,6 +41,7 @@ describe('validatePlusMinusOne', () => {
 
   it('warns when the prediction sum equals the cards dealt this round', () => {
     const warning = validatePlusMinusOne([2, 2, 2], 5) // sum 6 == 6 cards
-    expect(warning?.code).toBe('plus-minus-one-violation')
+    expect(warning?.code).toBe('plusMinusOneViolation')
+    expect(warning?.params).toEqual({ sum: 6, cards: 6 })
   })
 })

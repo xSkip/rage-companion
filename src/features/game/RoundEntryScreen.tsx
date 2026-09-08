@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useI18n } from '../../i18n/I18nContext'
 import { determineWinners } from '../../game/scoring'
 import { calculateStandings } from '../../game/standings'
 import { TOTAL_ROUNDS, type GameConfig, type RoundData } from '../../game/types'
@@ -17,6 +18,7 @@ interface RoundEntryScreenProps {
 }
 
 export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit, onNewGame }: RoundEntryScreenProps) {
+  const { t } = useI18n()
   const [editingRound, setEditingRound] = useState<number | null>(null)
 
   const isEditing = editingRound !== null
@@ -27,17 +29,17 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
   const standings = calculateStandings(config.players, rounds, config.variants)
   const winnerIds = gameFinished ? determineWinners(standings) : []
 
+  const title = gameFinished
+    ? t('round.titleFinished', { total: TOTAL_ROUNDS })
+    : isEditing
+      ? t('round.titleEdit', { round: activeRoundNumber })
+      : t('round.titleNew', { round: activeRoundNumber, total: TOTAL_ROUNDS })
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6 text-slate-100">
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">
-            {gameFinished
-              ? `Alle ${TOTAL_ROUNDS} Runden gespielt`
-              : isEditing
-                ? `Runde ${activeRoundNumber} bearbeiten`
-                : `Runde ${activeRoundNumber} von ${TOTAL_ROUNDS}`}
-          </h1>
+          <h1 className="text-2xl font-bold">{title}</h1>
         </div>
         <NewGameButton onConfirm={onNewGame} />
       </header>
@@ -49,7 +51,11 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
           players={config.players}
           variants={config.variants}
           initialData={existingRoundData}
-          submitLabel={isEditing ? `Runde ${activeRoundNumber} speichern` : `Runde ${activeRoundNumber} abschließen`}
+          submitLabel={
+            isEditing
+              ? t('round.submitEdit', { round: activeRoundNumber })
+              : t('round.submitNew', { round: activeRoundNumber })
+          }
           onCancel={isEditing ? () => setEditingRound(null) : undefined}
           onSubmit={(roundData) => {
             if (isEditing) {
@@ -66,7 +72,7 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
         <div className="flex flex-col gap-4">
           <WinnerBanner standings={standings} winnerIds={winnerIds} />
           <div>
-            <p className="mb-2 text-sm text-slate-400">Endstand:</p>
+            <p className="mb-2 text-sm text-slate-400">{t('round.finalStandingsLabel')}</p>
             <StandingsTable standings={standings} winnerIds={winnerIds} />
           </div>
         </div>
@@ -75,7 +81,7 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
       {!gameFinished && (
         <section>
           <h2 className="mb-2 text-lg font-semibold">
-            Rangliste {rounds.length > 0 ? `nach Runde ${rounds.length}` : ''}
+            {rounds.length > 0 ? t('round.standingsTitleAfterRound', { round: rounds.length }) : t('round.standingsTitle')}
           </h2>
           <StandingsTable standings={standings} />
         </section>

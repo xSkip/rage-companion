@@ -1,0 +1,67 @@
+const de = {
+  setup: {
+    title: 'Neue Partie',
+    subtitle: 'RAGE Companion — Wertungsblatt-Ersatz',
+    playersLegend: 'Spieler ({{count}}/{{max}})',
+    playerPlaceholder: 'Spieler {{index}}',
+    playerNameLabel: 'Name Spieler {{index}}',
+    removePlayerLabel: 'Spieler {{index}} entfernen',
+    addPlayer: '+ Spieler hinzufügen',
+    variantsLegend: 'Regel-Varianten',
+    variantPlusMinusOneLabel: 'Plus/Minus Eins',
+    variantPlusMinusOneDescription: 'Die Summe der Vorhersagen darf nicht der Kartenanzahl der Runde entsprechen.',
+    variantVerdeckterTippLabel: 'Verdeckter Tipp',
+    variantVerdeckterTippDescription: 'Vorhersagen werden geheim notiert und gleichzeitig aufgedeckt.',
+    variantGeheimeVorhersageLabel: 'Geheime Vorhersage',
+    variantGeheimeVorhersageDescription: 'Vorhersagen bleiben bis zum Rundenende geheim.',
+    variantDurchmarschLabel: 'Durchmarsch',
+    variantDurchmarschDescription: 'Doppelte Stichpunkte bei Gewinn aller Stiche einer Runde (außer Runde 10).',
+    errorMissingName: 'Bitte für alle Spieler einen Namen eingeben.',
+    submit: 'Partie starten',
+  },
+  round: {
+    titleNew: 'Runde {{round}} von {{total}}',
+    titleEdit: 'Runde {{round}} bearbeiten',
+    titleFinished: 'Alle {{total}} Runden gespielt',
+    cardsInfo: '{{count}} Karten pro Spieler',
+    columnPlayer: 'Spieler',
+    columnPrediction: 'Vorhersage',
+    columnTricks: 'Stiche',
+    columnSpecial: 'Sonderpunkte',
+    columnPoints: 'Punkte',
+    predictionLabel: 'Vorhersage {{name}}',
+    tricksLabel: 'Stiche {{name}}',
+    specialLabel: 'Sonderpunkte {{name}}',
+    submitNew: 'Runde {{round}} abschließen',
+    submitEdit: 'Runde {{round}} speichern',
+    cancel: 'Abbrechen',
+    finalStandingsLabel: 'Endstand:',
+    standingsTitle: 'Rangliste',
+    standingsTitleAfterRound: 'Rangliste nach Runde {{round}}',
+    historyTitle: 'Bisherige Runden',
+    historyEntry: 'Runde {{round}}:',
+    edit: 'Bearbeiten',
+  },
+  newGame: {
+    trigger: 'Neue Partie',
+    confirmWarning: 'Fortschritt geht verloren.',
+    confirmYes: 'Ja, neue Partie',
+    cancel: 'Abbrechen',
+  },
+  validation: {
+    predictionOutOfRange: 'Vorhersage sollte zwischen 0 und {{cards}} liegen ({{cards}} Karten in dieser Runde).',
+    tricksSumMismatch:
+      'Die Summe der gewonnenen Stiche ({{sum}}) entspricht nicht der Kartenanzahl dieser Runde ({{cards}}).',
+    plusMinusOneViolation:
+      'Bei aktivierter Variante "Plus/Minus Eins" darf die Summe der Vorhersagen ({{sum}}) nicht der Kartenanzahl ({{cards}}) entsprechen.',
+  },
+  winner: {
+    single: 'Sieger: {{name}}',
+    shared: 'Gemeinsamer Sieg: {{names}}',
+  },
+  language: {
+    label: 'Sprache',
+  },
+}
+
+export default de

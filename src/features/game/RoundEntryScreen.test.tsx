@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { GameConfig, RoundData } from '../../game/types'
+import { renderWithProviders as render } from '../../test/renderWithProviders'
 import { RoundEntryScreen } from './RoundEntryScreen'
 
 const config: GameConfig = {
