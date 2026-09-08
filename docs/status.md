@@ -37,13 +37,14 @@
 - [x] Neue Partie anlegen — Formular validiert nur fehlende Namen (blockierend, strukturelle
       Spielregel), keine weiche Validierung nötig da kein Gameplay-Wert
 
-## Meilenstein 4 — Rundenraster mit Live-Berechnung & Rangliste
+## Meilenstein 4 — Rundenraster mit Live-Berechnung & Rangliste ✅
 
-- [ ] Rundenweise Erfassung (Vorhersage, gewonnene Stiche, Sonderpunkte als freies Zahlenfeld),
-      Kartenanzahl 10→1 automatisch angezeigt
-- [ ] Punkte pro Runde live berechnet (nutzt Meilenstein 2)
-- [ ] Weiche Validierungshinweise bei unplausiblen Werten (nutzt Meilenstein 2, blockiert nicht)
-- [ ] Laufende Rangliste nach jeder Runde
+- [x] Rundenweise Erfassung (Vorhersage, gewonnene Stiche, Sonderpunkte als freies Zahlenfeld),
+      Kartenanzahl 10→1 automatisch angezeigt — `src/features/game/RoundEntryScreen.tsx`
+- [x] Punkte pro Runde live berechnet (nutzt Meilenstein 2)
+- [x] Weiche Validierungshinweise bei unplausiblen Werten (nutzt Meilenstein 2, blockiert nicht) —
+      erscheinen erst, sobald mindestens ein Feld befüllt ist (sonst unnötiges Rauschen bei leerem Formular)
+- [x] Laufende Rangliste nach jeder Runde — `src/game/standings.ts`, `StandingsTable.tsx`
 
 ## Meilenstein 5 — Lokale Speicherung & Korrektur
 
