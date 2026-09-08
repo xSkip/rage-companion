@@ -199,6 +199,81 @@ describe('RoundEntryScreen', () => {
     })
   })
 
+  describe('special card points stepper', () => {
+    it('starts at 0 and increases/decreases the live score by 5 per step', async () => {
+      const user = userEvent.setup()
+      renderScreen([])
+
+      const increasePlus5 = screen.getByRole('button', { name: '+5 Christine erhöhen' })
+      await user.click(increasePlus5)
+      await user.click(increasePlus5)
+
+      expect(screen.getByLabelText('+5 Karten Christine')).toHaveTextContent('2')
+
+      const decreasePlus5 = screen.getByRole('button', { name: '+5 Christine verringern' })
+      await user.click(decreasePlus5)
+      expect(screen.getByLabelText('+5 Karten Christine')).toHaveTextContent('1')
+    })
+
+    it('caps the counter at 3, matching the number of copies in the deck', async () => {
+      const user = userEvent.setup()
+      renderScreen([])
+
+      const increaseMinus5 = screen.getByRole('button', { name: '−5 Christine erhöhen' })
+      await user.click(increaseMinus5)
+      await user.click(increaseMinus5)
+      await user.click(increaseMinus5)
+      await user.click(increaseMinus5) // fourth click should have no effect
+
+      expect(screen.getByLabelText('−5 Karten Christine')).toHaveTextContent('3')
+      expect(increaseMinus5).toBeDisabled()
+    })
+
+    it('cannot go below 0', () => {
+      renderScreen([])
+      const decreasePlus5 = screen.getByRole('button', { name: '+5 Christine verringern' })
+      expect(decreasePlus5).toBeDisabled()
+    })
+
+    it('submits the net point value (plus5 - minus5) x 5', async () => {
+      const user = userEvent.setup()
+      const { onRoundComplete } = renderScreen([])
+
+      await user.type(screen.getByLabelText('Vorhersage Christine'), '2')
+      await user.type(screen.getByLabelText('Stiche Christine'), '2')
+      await user.click(screen.getByRole('button', { name: '+5 Christine erhöhen' }))
+      await user.click(screen.getByRole('button', { name: '+5 Christine erhöhen' }))
+      await user.click(screen.getByRole('button', { name: '−5 Christine erhöhen' }))
+
+      for (const name of ['Kirsten', 'Kira']) {
+        await user.type(screen.getByLabelText(`Vorhersage ${name}`), '0')
+        await user.type(screen.getByLabelText(`Stiche ${name}`), '0')
+      }
+
+      await user.click(screen.getByRole('button', { name: /runde 1 abschließen/i }))
+
+      const round = onRoundComplete.mock.calls[0][0] as RoundData
+      // 2x +5 - 1x -5 = +5
+      expect(round.specialCardPoints.p1).toBe(5)
+    })
+
+    it('pre-fills the counter from a saved round when editing', async () => {
+      const user = userEvent.setup()
+      const existingRound: RoundData = {
+        round: 1,
+        predictions: { p1: 2, p2: 3, p3: 5 },
+        tricksWon: { p1: 2, p2: 3, p3: 5 },
+        specialCardPoints: { p1: -10, p2: 0, p3: 0 },
+      }
+      renderScreen([existingRound])
+
+      await user.click(screen.getByRole('button', { name: /bearbeiten/i }))
+
+      expect(screen.getByLabelText('−5 Karten Christine')).toHaveTextContent('2')
+      expect(screen.getByLabelText('+5 Karten Christine')).toHaveTextContent('0')
+    })
+  })
+
   describe('starting a new game', () => {
     it('requires a confirmation click before calling onNewGame', async () => {
       const user = userEvent.setup()
