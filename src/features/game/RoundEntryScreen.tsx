@@ -36,7 +36,7 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
       : t('round.titleNew', { round: activeRoundNumber, total: TOTAL_ROUNDS })
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6 text-slate-100">
+    <div className="mx-auto flex max-w-3xl flex-col gap-6 p-4 text-slate-100 sm:p-6">
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">{title}</h1>

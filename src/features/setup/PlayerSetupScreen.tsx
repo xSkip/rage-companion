@@ -59,7 +59,7 @@ export function PlayerSetupScreen({ onCreateGame }: PlayerSetupScreenProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-6 p-6 text-slate-100">
+    <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-6 p-4 text-slate-100 sm:p-6">
       <div>
         <h1 className="text-2xl font-bold">{t('setup.title')}</h1>
         <p className="mt-1 text-sm text-slate-400">{t('setup.subtitle')}</p>

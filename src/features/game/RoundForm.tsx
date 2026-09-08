@@ -71,15 +71,15 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
     <div className="flex flex-col gap-4">
       <p className="text-sm text-slate-400">{t('round.cardsInfo', { count: cardsThisRound })}</p>
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px] border-collapse text-sm">
+      <div className="-mx-1 overflow-x-auto px-1">
+        <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="border-b border-slate-700 text-left text-slate-400">
-              <th className="py-2 pr-2">{t('round.columnPlayer')}</th>
-              <th className="px-2 py-2">{t('round.columnPrediction')}</th>
-              <th className="px-2 py-2">{t('round.columnTricks')}</th>
-              <th className="px-2 py-2">{t('round.columnSpecial')}</th>
-              <th className="py-2 pl-2 text-right">{t('round.columnPoints')}</th>
+              <th className="py-2 pr-1 sm:pr-2">{t('round.columnPlayer')}</th>
+              <th className="px-1 py-2 sm:px-2">{t('round.columnPrediction')}</th>
+              <th className="px-1 py-2 sm:px-2">{t('round.columnTricks')}</th>
+              <th className="px-1 py-2 sm:px-2">{t('round.columnSpecial')}</th>
+              <th className="py-2 pl-1 text-right sm:pl-2">{t('round.columnPoints')}</th>
             </tr>
           </thead>
           <tbody>
@@ -95,36 +95,36 @@ export function RoundForm({ round, players, variants, initialData, onSubmit, onC
               )
               return (
                 <tr key={player.id} className="border-b border-slate-800">
-                  <td className="py-2 pr-2 font-medium">{player.name}</td>
-                  <td className="px-2 py-2">
+                  <td className="max-w-[4.5rem] truncate py-2 pr-1 font-medium sm:max-w-none sm:pr-2">{player.name}</td>
+                  <td className="px-1 py-2 sm:px-2">
                     <input
                       type="number"
                       value={predictions[player.id]}
                       onChange={(e) => updateValue(setPredictions, player.id, e.target.value)}
                       aria-label={t('round.predictionLabel', { name: player.name })}
-                      className="w-16 rounded border border-slate-600 bg-slate-800 px-2 py-2 text-base sm:w-20 sm:py-1"
+                      className="w-11 rounded border border-slate-600 bg-slate-800 px-1 py-2 text-base sm:w-20 sm:px-2 sm:py-1"
                     />
                   </td>
-                  <td className="px-2 py-2">
+                  <td className="px-1 py-2 sm:px-2">
                     <input
                       type="number"
                       value={tricksWon[player.id]}
                       onChange={(e) => updateValue(setTricksWon, player.id, e.target.value)}
                       aria-label={t('round.tricksLabel', { name: player.name })}
-                      className="w-16 rounded border border-slate-600 bg-slate-800 px-2 py-2 text-base sm:w-20 sm:py-1"
+                      className="w-11 rounded border border-slate-600 bg-slate-800 px-1 py-2 text-base sm:w-20 sm:px-2 sm:py-1"
                     />
                   </td>
-                  <td className="px-2 py-2">
+                  <td className="px-1 py-2 sm:px-2">
                     <input
                       type="number"
                       step={5}
                       value={specialCardPoints[player.id]}
                       onChange={(e) => updateValue(setSpecialCardPoints, player.id, e.target.value)}
                       aria-label={t('round.specialLabel', { name: player.name })}
-                      className="w-16 rounded border border-slate-600 bg-slate-800 px-2 py-2 text-base sm:w-20 sm:py-1"
+                      className="w-11 rounded border border-slate-600 bg-slate-800 px-1 py-2 text-base sm:w-20 sm:px-2 sm:py-1"
                     />
                   </td>
-                  <td className="py-2 pl-2 text-right font-mono">{liveScore}</td>
+                  <td className="py-2 pl-1 text-right font-mono sm:pl-2">{liveScore}</td>
                 </tr>
               )
             })}
