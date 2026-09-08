@@ -19,13 +19,16 @@
   (Hinweis: Repo musste dafür auf öffentlich gestellt werden, da GitHub Pages für private Repos auf
   dem aktuellen Plan nicht verfügbar ist)
 
-## Meilenstein 2 — Punkteberechnungs-Logik (Kernstück, isoliert & getestet)
+## Meilenstein 2 — Punkteberechnungs-Logik (Kernstück, isoliert & getestet) ✅
 
-- [ ] Reine TypeScript-Funktionen für die Punkteberechnung (Abschnitt 3 der Anforderungen)
-- [ ] Vitest-Unit-Tests für alle Fälle: korrekte/falsche Vorhersage, +5/−5-Bonus, Durchmarsch-Variante
-- [ ] Sieger-/Gleichstand-Logik (Abschnitt 5.5) als eigene getestete Funktion
-- [ ] Weiche Validierungs-Funktionen (Abschnitt 5a): Vorhersage vs. Kartenanzahl, Stichsumme vs.
-      Kartenanzahl, Plus/Minus-Eins-Check — geben Warnung zurück, blockieren nichts
+- [x] Reine TypeScript-Funktionen für die Punkteberechnung (Abschnitt 3 der Anforderungen)
+  — `src/game/scoring.ts`, Formel korrigiert: Stichpunkte zählen immer, siehe Commit `2a090b7`
+- [x] Vitest-Unit-Tests für alle Fälle: korrekte/falsche Vorhersage, +5/−5-Bonus, Durchmarsch-Variante
+  — 24 Tests, `src/game/scoring.test.ts` + `src/game/validation.test.ts`
+- [x] Sieger-/Gleichstand-Logik (Abschnitt 5.5) als eigene getestete Funktion — `determineWinners`
+- [x] Weiche Validierungs-Funktionen (Abschnitt 5a): Vorhersage vs. Kartenanzahl, Stichsumme vs.
+      Kartenanzahl, Plus/Minus-Eins-Check — `src/game/validation.ts`, geben Warnung zurück, blockieren nichts
+- [x] CI führt Testsuite vor jedem Build/Deploy aus
 
 ## Meilenstein 3 — Partie-Setup-Screen
 
