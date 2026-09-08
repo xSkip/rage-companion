@@ -46,10 +46,12 @@
       erscheinen erst, sobald mindestens ein Feld befüllt ist (sonst unnötiges Rauschen bei leerem Formular)
 - [x] Laufende Rangliste nach jeder Runde — `src/game/standings.ts`, `StandingsTable.tsx`
 
-## Meilenstein 5 — Lokale Speicherung & Korrektur
+## Meilenstein 5 — Lokale Speicherung & Korrektur ✅
 
-- [ ] `localStorage`-Hook für Partie-Fortschritt (kein Datenverlust bei Reload)
-- [ ] Bereits erfasste Runden nachträglich bearbeitbar
+- [x] `localStorage`-Hook für Partie-Fortschritt (kein Datenverlust bei Reload) — `src/lib/useLocalStorage.ts`
+- [x] Bereits erfasste Runden nachträglich bearbeitbar — `RoundHistory` + `RoundForm` im Edit-Modus,
+      funktioniert auch nach Spielende. Zusätzlich: "Neue Partie"-Reset mit Bestätigung (notwendige
+      Ergänzung, da der Fortschritt sonst dauerhaft im Browser hängen bliebe)
 
 ## Meilenstein 6 — Spielende
 
