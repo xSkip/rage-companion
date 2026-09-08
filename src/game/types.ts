@@ -21,6 +21,13 @@ export interface GameConfig {
   createdAt: string
 }
 
+export interface RoundData {
+  round: number
+  predictions: Record<string, number>
+  tricksWon: Record<string, number>
+  specialCardPoints: Record<string, number>
+}
+
 export interface RoundInput {
   round: number
   prediction: number
