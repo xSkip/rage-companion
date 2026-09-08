@@ -114,6 +114,29 @@ describe('RoundEntryScreen', () => {
     expect(screen.getByRole('heading', { name: /alle 10 runden gespielt/i })).toBeInTheDocument()
   })
 
+  it('highlights the single winner once the game is finished', () => {
+    // p3 predicts and wins more tricks every round -> clear leader
+    const rounds: RoundData[] = Array.from({ length: 10 }, (_, i) => ({
+      round: i + 1,
+      predictions: { p1: 1, p2: 1, p3: 2 },
+      tricksWon: { p1: 1, p2: 1, p3: 2 },
+      specialCardPoints: { p1: 0, p2: 0, p3: 0 },
+    }))
+    renderScreen(rounds)
+    expect(screen.getByText(/^🏆 sieger: kira$/i)).toBeInTheDocument()
+  })
+
+  it('shows a shared win banner when players are tied for first after round 10', () => {
+    const rounds: RoundData[] = Array.from({ length: 10 }, (_, i) => ({
+      round: i + 1,
+      predictions: { p1: 1, p2: 1, p3: 0 },
+      tricksWon: { p1: 1, p2: 1, p3: 0 },
+      specialCardPoints: { p1: 0, p2: 0, p3: 0 },
+    }))
+    renderScreen(rounds)
+    expect(screen.getByText(/gemeinsamer sieg: christine & kirsten/i)).toBeInTheDocument()
+  })
+
   describe('editing a previous round', () => {
     const existingRound: RoundData = {
       round: 1,

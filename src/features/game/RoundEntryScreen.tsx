@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { determineWinners } from '../../game/scoring'
 import { calculateStandings } from '../../game/standings'
 import { TOTAL_ROUNDS, type GameConfig, type RoundData } from '../../game/types'
 import { NewGameButton } from './NewGameButton'
 import { RoundForm } from './RoundForm'
 import { RoundHistory } from './RoundHistory'
 import { StandingsTable } from './StandingsTable'
+import { WinnerBanner } from './WinnerBanner'
 
 interface RoundEntryScreenProps {
   config: GameConfig
@@ -23,6 +25,7 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
   const existingRoundData = isEditing ? (rounds.find((r) => r.round === editingRound) ?? null) : null
 
   const standings = calculateStandings(config.players, rounds, config.variants)
+  const winnerIds = gameFinished ? determineWinners(standings) : []
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6 text-slate-100">
@@ -60,9 +63,12 @@ export function RoundEntryScreen({ config, rounds, onRoundComplete, onRoundEdit,
       )}
 
       {gameFinished && (
-        <div>
-          <p className="mb-2 text-sm text-slate-400">Endstand:</p>
-          <StandingsTable standings={standings} />
+        <div className="flex flex-col gap-4">
+          <WinnerBanner standings={standings} winnerIds={winnerIds} />
+          <div>
+            <p className="mb-2 text-sm text-slate-400">Endstand:</p>
+            <StandingsTable standings={standings} winnerIds={winnerIds} />
+          </div>
         </div>
       )}
 
